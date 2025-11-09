@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  server:
+    build: ./server
+    ports:
+      - 3000:3000
+    networks:
+      - medical-inventory-infra-network
+    container_name: server-medical-inventory
+    restart: unless-stopped
+
+  client:
+    build: ./client
+    ports:
+      - 5173:5173
+    networks:
+      - medical-inventory-infra-network
+    container_name: client-medical-inventory
+    restart: unless-stopped
+    depends_on:
+      - server
+
+networks:
+    medical-inventory-infra-network: 
+      driver: bridge
